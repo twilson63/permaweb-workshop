@@ -1,6 +1,6 @@
 <script>
-  import Arweave from "arweave";
   import { ArweaveWebWallet } from "arweave-wallet-connector";
+  import Arweave from "arweave";
   import { take, takeLast, prop } from "ramda";
 
   const slug = (a) => `${take(5, a)}...${takeLast(5, a)}`;
@@ -14,7 +14,7 @@
         }
       : {};
   const arweave = Arweave.init(options);
-  const wallet = new ArweaveWebWallet({ name: "Test Project" });
+  const wallet = new ArweaveWebWallet({ name: "Permaweb Social" });
   wallet.setUrl("arweave.app");
 
   const query = `
@@ -38,10 +38,28 @@ query {
     return arweave.api.post("graphql", { query }).then(prop("data"));
   }
 
-  async function handleSubmit(e) {}
+  async function handleSubmit(e) {
+    // find a wallet
+    if (window.arweaveWallet) {
+      await window.arweaveWallet.connect(["DISPATCH"]);
+    } else {
+      await wallet.connect();
+    }
+    const tx = await arweave.createTransaction({ data: e.target.status.value });
+    tx.addTag("Content-Type", "text/plain");
+    tx.addTag("App-Name", "PublicSquare");
+    tx.addTag("Version", "1.0.1");
+    tx.addTag("Type", "post");
+
+    // dispatch a message
+    await window.arweaveWallet.dispatch(tx);
+
+    e.target.reset();
+    sleep(500);
+    data = doQuery();
+  }
 
   let data = doQuery();
-
 </script>
 
 <div class="md:w-[600px] md:mx-auto">
