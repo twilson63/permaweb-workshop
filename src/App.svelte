@@ -9,7 +9,7 @@
 
   const query = `
 query {
-  transactions(first: 100, tags: {name: "Type", values: ["image"]}) {
+  transactions(first: 100, tags: {name: "App-Name", values: ["PublicSquare"]}) {
     edges {
       node {
         id
@@ -50,10 +50,13 @@ query {
           {edge.node.owner.address}
         </a>
       </div>
-      <img
-        src="https://arweave.net/{edge.node.id}"
-        alt={edge.node.tags.find((t) => t === "Title")?.value}
-      />
+      <div class="card">
+        <div class="card-body">
+          {#await arweave.api.get(edge.node.id) then message}
+            {message.data}
+          {/await}
+        </div>
+      </div>
     {/each}
   </div>
 {:catch error}
