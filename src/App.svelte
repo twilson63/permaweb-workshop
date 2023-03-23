@@ -9,7 +9,7 @@
 
   const query = `
 query {
-  transactions(first: 100) {
+  transactions(owners: ["2nlaQMUL6IjJve8FET5DtxdT9Fk337_bbiBmvXAWBYY"]) {
     edges {
       node {
         id
