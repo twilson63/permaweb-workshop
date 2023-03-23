@@ -9,11 +9,15 @@
 
   const query = `
 query {
-  transactions(owners: ["2nlaQMUL6IjJve8FET5DtxdT9Fk337_bbiBmvXAWBYY"]) {
+  transactions {
     edges {
       node {
         id
         owner { address }
+        tags {
+          name
+          value
+        }
       }
     }
   }
@@ -46,6 +50,7 @@ query {
           {edge.node.owner.address}
         </a>
       </div>
+      <pre>{JSON.stringify(edge.node.tags, null, 2)}</pre>
     {/each}
   </div>
 {/await}
