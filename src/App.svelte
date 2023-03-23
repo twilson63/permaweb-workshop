@@ -50,7 +50,10 @@ query {
           {edge.node.owner.address}
         </a>
       </div>
-      <pre>{JSON.stringify(edge.node.tags, null, 2)}</pre>
+      <img
+        src="https://arweave.net/{edge.node.id}"
+        alt={edge.node.tags.find((t) => t === "Title")?.value}
+      />
     {/each}
   </div>
 {:catch error}
