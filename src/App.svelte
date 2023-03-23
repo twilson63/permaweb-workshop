@@ -9,7 +9,7 @@
 
   const query = `
 query {
-  transactions {
+  transactions(first: 100, tags: {name: "Type", values: ["image"]}) {
     edges {
       node {
         id
@@ -53,4 +53,6 @@ query {
       <pre>{JSON.stringify(edge.node.tags, null, 2)}</pre>
     {/each}
   </div>
+{:catch error}
+  <div class="bg-error text-white">{error.message}</div>
 {/await}
