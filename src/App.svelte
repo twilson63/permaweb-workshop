@@ -9,10 +9,11 @@
 
   const query = `
 query {
-  transactions {
+  transactions(first: 100) {
     edges {
       node {
         id
+        owner { address }
       }
     }
   }
@@ -37,6 +38,12 @@ query {
       <div class="border-2 border-[#ff8500] py-4 my-2 mx-auto text-center">
         <a href="https://viewblock.io/arweave/tx/{edge.node.id}">
           {edge.node.id}
+        </a>
+        -
+        <a
+          href="https://viewblock.io/arweave/address/{edge.node.owner.address}"
+        >
+          {edge.node.owner.address}
         </a>
       </div>
     {/each}
